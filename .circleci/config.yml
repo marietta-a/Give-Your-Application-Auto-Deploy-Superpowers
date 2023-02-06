@@ -107,6 +107,7 @@ jobs:
           name: scan frontend security vulnerabilites
           command: |
             cd frontend
+            npm install
             npm audit
 
   scan-backend:
@@ -120,7 +121,8 @@ jobs:
           name: scan backend security vulnerabilites
           command: |
             cd backend
-            npm audit
+            npm install
+            npm audit --audit-level-critical
 
   # deploy-infrastructure:
   #   docker:
