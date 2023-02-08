@@ -210,7 +210,7 @@ jobs:
       - checkout
       - run: 
           name: install dependencies
-          command: apk add --update tar gzip aws-cli curl
+          command: apk add --update tar gzip aws-cli curl npm nodejs
       - run:
           name: Run migrations
           command: |
