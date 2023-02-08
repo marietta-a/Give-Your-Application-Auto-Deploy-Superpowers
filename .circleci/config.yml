@@ -142,6 +142,13 @@ jobs:
     steps:
       - checkout
       - run: yum install -y tar gzip
+      - run: 
+        name: Setup cloudfront
+        command: |
+          aws cloudformation deploy \
+         --template-file .circleci/files/cloudfront.yml \
+         --stack-name InitialStack \
+         --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -324,8 +331,8 @@ workflows:
           # filters:
           #   branches:
           #     only: [test-feature-branch]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
