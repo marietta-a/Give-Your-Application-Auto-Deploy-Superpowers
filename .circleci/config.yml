@@ -7,10 +7,10 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
-      destroy:
+      WORKFLOW_ID:
         description: destroy environment
         type: string
-        workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
 
     steps:
       - run:
@@ -18,7 +18,7 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack \
-            --stack-name udapeople-backend-$workflow_id
+            --stack-name udapeople-backend-<<parameters.WORKFLOW_ID>>
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -173,7 +173,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text >> ~/project/.circleci/ansible/inventory.txt
       - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
       - persist_to_workspace:
           root: ~/
@@ -200,7 +200,7 @@ jobs:
           command: |
             ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project.circleci/ansible/configure-server.yml
       - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
@@ -225,7 +225,7 @@ jobs:
                 curl https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   # #    # Here's where you will add some code to rollback on failure      
 
