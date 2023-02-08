@@ -232,13 +232,13 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: python:3.11.1-alpine3.17
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update aws-cli gzip tar npm
+            yum install -y gzip tar npm
       - run:
           name: Get backend url
           command: |
