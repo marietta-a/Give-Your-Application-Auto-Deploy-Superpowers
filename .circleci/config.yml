@@ -195,16 +195,18 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            apk add --update ansible awscli tar gzip 
       - run:
           name: Configure server
           command: |
-            ansible-playbook -i inventory.txt playbook.yml
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment:
+          destroy: true
       # Here's where you will add some code to rollback on failure      
 
   # run-migrations:
   #   docker:
-  #     # Docker image here that supports NodeJS
+      # - image: circleci/node:13.8.0
   #   steps:
   #     # Checkout code from git
   #     - run:
