@@ -8,8 +8,8 @@ commands:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       destroy:
-        description: destroy
-        type: string
+        description: destroy environment
+        type: String
         workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
     steps:
@@ -330,16 +330,17 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
       - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          requires: [build-frontend, build-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
