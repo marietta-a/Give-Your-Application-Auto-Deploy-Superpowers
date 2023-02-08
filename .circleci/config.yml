@@ -9,7 +9,7 @@ commands:
     parameters:
       destroy:
         description: destroy environment
-        type: String
+        type: string
         workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
     steps:
@@ -18,7 +18,7 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack \
-            --stack-name udapeople-backend-${workflow_id}
+            --stack-name udapeople-backend-$workflow_id
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
