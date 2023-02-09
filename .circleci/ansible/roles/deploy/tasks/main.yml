@@ -1,0 +1,31 @@
+---
+- name: "upgrade and update packages."
+  become: true
+  apt:
+    upgrade: "yes"
+    update_cache: "yes"
+
+- name: "install node dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+- name: "stop pm2 process (default)"
+  command: pm2 stop default
+  become: true
+
+- name: "start pm2 process"
+  command: pm2 start npm -- start
+  become: true
+
+
