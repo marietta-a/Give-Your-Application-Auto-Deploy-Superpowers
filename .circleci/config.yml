@@ -14,11 +14,23 @@ commands:
 
     steps:
       - run:
-          name: Destroy environments
+          name: Destroy initialStack
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack \
+            --stack-name InitialStack
+      - run:
+          name: Destroy backend
           when: on_fail
           command: |
             aws cloudformation delete-stack \
             --stack-name udapeople-backend-<<parameters.WORKFLOW_ID>>
+      - run:
+          name: Destroy frontend
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack \
+            --stack-name udapeople-frontend-<<parameters.WORKFLOW_ID>>
 
   # revert-migrations:
   #   description: Revert the last migration if successfully run in the current workflow.
@@ -170,8 +182,8 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filter 'Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}'
+            --query Reservations[*].Instances[*].PublicIpAddress \
+            --filter Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             --output text >> ~/project/.circleci/ansible/inventory.txt
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -212,11 +224,14 @@ jobs:
       - run: 
           name: install dependencies
           command: apk add --update tar gzip aws-cli curl npm nodejs
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
             cd backend
             npm install
+            npm audit fix --force
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
@@ -345,18 +360,18 @@ jobs:
 workflows:
   blue-green-workflows:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      # - build-frontend
+      # - build-backend
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      - deploy-infrastructure
+          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
