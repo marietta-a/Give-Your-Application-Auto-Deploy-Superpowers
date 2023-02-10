@@ -23,6 +23,7 @@ commands:
           name: Destroy frontend
           when: on_fail
           command: |
+            aws s3 rm s3://udapeople-<<parameters.WORKFLOW_ID>> --recursive
             aws cloudformation delete-stack \
             --stack-name udapeople-frontend-<<parameters.WORKFLOW_ID>>
 
@@ -348,8 +349,8 @@ jobs:
             else
               return 1
             fi
-      # - destroy-environment:
-      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
@@ -411,21 +412,21 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure
+      # - deploy-infrastructure
           # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      - smoke-test
+          # requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
