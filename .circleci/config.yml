@@ -230,7 +230,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm run migrations > migrations_dump.txt
+            npm run migrations >> migrations_dump.txt
       - run:
           name: Send migration results to kvdb
           command: |
