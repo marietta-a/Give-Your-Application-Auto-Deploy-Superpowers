@@ -20,6 +20,12 @@
     production: yes
     state: present
 
+- name: "extract artifact"
+  become: true
+  unarchive:
+    src: files/artifact.tar.gz
+    dest: .
+
 - name: "stop pm2 process (default)"
   command: pm2 stop default
   become: true
