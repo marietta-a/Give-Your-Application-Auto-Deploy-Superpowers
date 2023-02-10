@@ -193,12 +193,12 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8
-      - attach_workspace:
-         at: ~/
       - run:
           name: Install dependencies
           command: |
             apk add --update ansible aws-cli tar gzip 
+      - attach_workspace:
+         at: ~/
       - run:
           name: Configure server
           command: |
