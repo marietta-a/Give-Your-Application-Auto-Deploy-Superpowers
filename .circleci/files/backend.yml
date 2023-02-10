@@ -7,31 +7,11 @@ Parameters:
     Type: String
 
 Resources:
-  VPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: 10.0.0.0/16
-      EnableDnsHostnames: true
-      Tags:
-        - Key: Name
-          Value: udapeople-vpc-${ID}
-  PublicSubnet:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: !Select [0,  !GetAZs ]
-      MapPublicIpOnLaunch: true
-      CidrBlock: 10.0.3.0/24
-      Tags:
-        - Key: Name
-          Value: udapeople-subnet-${ID}
-
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: !Sub UdaPeople-${ID}
       GroupDescription: Allow port 22 and port 3030.
-      VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
@@ -41,62 +21,17 @@ Resources:
           FromPort: 3030
           ToPort: 3030
           CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: "-1"
-          FromPort: 0
-          ToPort: 65535
-          CidrIp: 0.0.0.0/0
-
-  S3ReadOnlyRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: S3ReadOnlyAccess
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action: 
-                  - s3:Get*
-                  - s3:List*
-                Resource: 
-                  - arn:aws:s3:::udacity-cfn-bucket
-                  - arn:aws:s3:::udacity-cfn-bucket/*
-                
-  InstanceProfile:
-    Type: 'AWS::IAM::InstanceProfile'
-    Properties:
-      Path: /
-      Roles:
-        - !Ref S3ReadOnlyRole
 
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      IamInstanceProfile: !Ref InstanceProfile
-      # SecurityGroups: 
-      #   - Ref: InstanceSecurityGroup
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
       KeyName: udacity # If you use another key pair name, you should change this value to match.
       # If this ami id is not available for you, you can find another (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html)
       # Ubuntu 18 or higher works fine
       ImageId: ami-068663a3c619dd892 
-      NetworkInterfaces: 
-        - AssociatePublicIpAddress: true
-          DeviceIndex: "0"
-          GroupSet:  
-            - !Ref InstanceSecurityGroup
-          SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
