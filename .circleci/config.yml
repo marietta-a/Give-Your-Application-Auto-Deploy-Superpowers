@@ -158,8 +158,6 @@ jobs:
             --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
             --tags Project=udapeople \
-            --capabilities CAPABILITY_IAM
-      - run: sudo ufw allow 3030/tcp
       - run:
           name: Ensure front-end infrastructure exist
           command: |
