@@ -264,7 +264,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filter 'Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}'
+            --filter 'Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}' \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
@@ -330,7 +330,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filter 'Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}'
+            --filter 'Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}' \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
@@ -414,10 +414,10 @@ workflows:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
-      - deploy-backend
+      # - deploy-backend
           # requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend]
+      - smoke-test
+          # requires: [deploy-backend]
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
