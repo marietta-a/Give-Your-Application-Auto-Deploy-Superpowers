@@ -18,7 +18,7 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack \
-            --stack-name InitialStack-<<parameters.WORKFLOW_ID>>
+            --stack-name InitialStack
       - run:
           name: Destroy backend
           when: on_fail
@@ -350,8 +350,8 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment:
-          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy-environment:
+      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
@@ -367,7 +367,7 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name InitialStack-${CIRCLE_WORKFLOW_ID:0:7} \
+            --stack-name InitialStack \
             --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
             --tags project=udapeople
       # Here's where you will add some code to rollback on failure  
