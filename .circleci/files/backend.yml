@@ -14,8 +14,17 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: udapeople-${ID}
-
+          Value: udapeople-vpc-${ID}
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [0,  !GetAZs ]
+      MapPublicIpOnLaunch: true
+      CidrBlock: 10.0.3.0/24
+      Tags:
+        - Key: Name
+          Value: udapeople-subnet-${ID}
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -52,6 +61,7 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - !Ref InstanceSecurityGroup
+          SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
