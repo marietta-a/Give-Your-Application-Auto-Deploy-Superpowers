@@ -18,7 +18,7 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack \
-            --stack-name InitialStack
+            --stack-name InitialStack-<<parameters.WORKFLOW_ID>>
       - run:
           name: Destroy backend
           when: on_fail
@@ -161,7 +161,7 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name InitialStack \
+            --stack-name InitialStack-${CIRCLE_WORKFLOW_ID:0:7} \
             --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Ensure back-end infrastructure exists
@@ -330,16 +330,16 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            # export BACKEND_IP=$(aws ec2 describe-instances \
-            # --query Reservations[*].Instances[*].PublicIpAddress \
-            # --filter Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
-            # --output text)
-            # export API_URL="http://${BACKEND_IP}:3030"
-            # echo "${API_URL}"
-            
-            export BACKEND_IP=$(tail ~/project/.circleci/ansible/inventory.txt)
+            export BACKEND_IP=$(aws ec2 describe-instances \
+            --query Reservations[*].Instances[*].PublicIpAddress \
+            --filter Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+            --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
+            
+            # export BACKEND_IP=$(tail ~/project/.circleci/ansible/inventory.txt)
+            # export API_URL="http://${BACKEND_IP}:3030"
+            # echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
@@ -358,8 +358,8 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment:
-          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy-environment:
+      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   # cloudfront-update:
   #   docker:
@@ -409,19 +409,19 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      # - deploy-infrastructure:
-      #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #     # filters:
-      #     #   branches:
-      #     #     only: [test-feature-branch]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
-      # - deploy-frontend:
-      #     requires: [run-migrations]
-      # - deploy-backend
-          # requires: [run-migrations]
+      - deploy-infrastructure
+          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          # filters:
+          #   branches:
+          #     only: [test-feature-branch]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       - smoke-test
           # requires: [deploy-backend]
       #     requires: [deploy-backend, deploy-frontend]
