@@ -94,7 +94,7 @@ Resources:
       NetworkInterfaces: 
         - AssociatePublicIpAddress: true
           DeviceIndex: "0"
-          GroupSet: 
+          GroupSet:  
             - !Ref InstanceSecurityGroup
           SubnetId: !Ref PublicSubnet
       Tags:
