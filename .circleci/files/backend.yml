@@ -22,44 +22,10 @@ Resources:
           ToPort: 3030
           CidrIp: 0.0.0.0/0
 
-  S3ReadOnlyRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: S3ReadOnlyAccess
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action: 
-                  - s3:Get*
-                  - s3:List*
-                Resource: "*"
-                  # - arn:aws:s3:::udacity-cfn-bucket
-                  # - arn:aws:s3:::udacity-cfn-bucket/*
-                
-  InstanceProfile:
-    Type: 'AWS::IAM::InstanceProfile'
-    Properties:
-      Path: /
-      Roles:
-        - !Ref S3ReadOnlyRole
-
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      IamInstanceProfile: !Ref InstanceProfile
       SecurityGroups:
         - Ref: InstanceSecurityGroup
       KeyName: udacity # If you use another key pair name, you should change this value to match.
