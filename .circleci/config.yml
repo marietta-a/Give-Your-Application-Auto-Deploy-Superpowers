@@ -216,8 +216,8 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            ansible -m ping all\
             ansible-playbook -i inventory.txt configure-server.yml -c ssh -vvv \
-            # --key-file ~/.ssh/id_rsa_bf18af582a5fbf02856c586f01c616d8  
 
   run-migrations:
     docker:
