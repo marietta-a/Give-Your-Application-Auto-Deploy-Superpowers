@@ -204,7 +204,7 @@ jobs:
       - run: 
           name: install dependencies
           command: |
-            sudo apt install -y tar gzip curl
+            sudo apt install -y tar gzip curl ansible
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
@@ -220,8 +220,8 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-      # - destroy-environment:
-      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}  
+      - destroy-environment:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}  
 
   run-migrations:
     docker:
