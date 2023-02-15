@@ -212,6 +212,9 @@ jobs:
       #     command: |
       #       cd .circleci/ansible
       #       cat inventory.txt
+      - run: 
+        name: ping ansible
+        command: ansible -m ping all
       - run:
           name: Configure server
           command: |
