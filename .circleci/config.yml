@@ -216,8 +216,8 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            # --key-file ~/.ssh/id_rsa_bf18af582a5fbf02856c586f01c616d8  \
-            ansible-playbook -i inventory.txt configure-server.yml -c paramiko
+            --key-file ~/.ssh/id_rsa_bf18af582a5fbf02856c586f01c616d8  \
+            ansible-playbook -i inventory.txt configure-server.yml -c ssh -vvv
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}  
 
