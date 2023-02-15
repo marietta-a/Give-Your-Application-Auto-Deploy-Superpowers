@@ -230,10 +230,9 @@ jobs:
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
       - run:
-          name: display inventory
+          name: install sshpass
           command: |
-            cd .circleci/ansible
-            cat inventory.txt
+            sudo apt-get install sshpass
       - run:
           name: Configure server
           command: |
