@@ -206,8 +206,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints:
-            - bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8
+          fingerprints: ["bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8"]
       - run:
           name: Install dependencies
           command: |
@@ -229,9 +228,6 @@ jobs:
             sudo apt install software-properties-common -y
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
-      - run: 
-          name: ping ansible
-          command: ansible -m ping all
       - run:
           name: Configure server
           command: |
