@@ -167,6 +167,11 @@ jobs:
             --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
             --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7}  \
             --tags Project=udapeople
+      - run:
+          name: create inventory
+          command: |
+            cd .circleci/ansible
+            echo [web] > inventory.txt
 
       - run:
           name: Add back-end ip to ansible inventory
@@ -177,6 +182,7 @@ jobs:
             --filter Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text) >> inventory.txt
       - run:
+          name: display inventory
           command: |
             cd .circleci/ansible
             cat inventory.txt
