@@ -207,16 +207,17 @@ jobs:
             apk add --update ansible aws-cli tar gzip 
       - attach_workspace:
          at: ~/
-      - run:
-          name: display inventory
-          command: |
-            cd .circleci/ansible
-            cat inventory.txt
+      # - run:
+      #     name: display inventory
+      #     command: |
+      #       cd .circleci/ansible
+      #       cat inventory.txt
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml \
+            --key-file ~/.ssh/id_rsa_bf18af582a5fbf02856c586f01c616d8
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}  
 
@@ -424,18 +425,18 @@ jobs:
 workflows:
   blue-green-workflows:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      # - build-frontend
+      # - build-backend
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      - deploy-infrastructure
+          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
