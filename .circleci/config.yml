@@ -1,5 +1,12 @@
 version: 2.1
 
+executors:
+  node:
+    docker:
+      - image: circleci/node:13.8.0
+  python:
+    docker:
+      - image: python:3.11.1-alpine3.17
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 
@@ -195,7 +202,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.9.0-alpine
+      - image: python:3.11.1-alpine3.17
     steps:
       - checkout
       - add_ssh_keys:
@@ -204,8 +211,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible aws-cli 
-            ansible --version 
+            apk add --update ansible aws-cli tar gzip 
       - attach_workspace:
          at: ~/
       # - run:
@@ -428,18 +434,18 @@ jobs:
 workflows:
   blue-green-workflows:
     jobs:
-      # - build-frontend
-      # - build-backend
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
-      # - scan-backend:
-      #     requires: [build-backend]
-      # - scan-frontend:
-      #     requires: [build-frontend]
-      - deploy-infrastructure
-          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
           #     only: [test-feature-branch]
