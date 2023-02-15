@@ -206,7 +206,8 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8"]
+          fingerprints: 
+            - bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8
       - run:
           name: Install dependencies
           command: |
@@ -229,10 +230,15 @@ jobs:
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
       - run:
+          name: display inventory
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+      - run:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml -vvv
+            ansible-playbook -i inventory.txt -vvv configure-server.yml
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
