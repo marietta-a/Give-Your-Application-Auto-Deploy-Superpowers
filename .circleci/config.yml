@@ -208,6 +208,11 @@ jobs:
       - attach_workspace:
          at: ~/
       - run:
+          name: display inventory
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+      - run:
           name: Configure server
           command: |
             cd .circleci/ansible
