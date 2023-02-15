@@ -216,8 +216,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible -m ping all\
-            ansible-playbook -i inventory.txt configure-server.yml -c ssh -vvv \
+            ansible-playbook -i inventory.txt configure-server.yml 
 
   run-migrations:
     docker:
