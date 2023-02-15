@@ -234,6 +234,10 @@ jobs:
           command: |
             sudo apt-get install sshpass
       - run:
+          name: ping ansible
+          command: | 
+            ansible web -u ubuntu -m ping -vvv
+      - run:
           name: Configure server
           command: |
             cd .circleci/ansible
