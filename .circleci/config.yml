@@ -202,7 +202,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/node:16.13.2 
+      - image: oython
     steps:
       - checkout
       - add_ssh_keys:
