@@ -26,12 +26,10 @@
     src: files/artifact.tar.gz
     dest: .
 
-- name: "stop pm2 process (default)"
-  command: pm2 stop default
+- name: "start process"
   become: true
-
-- name: "start pm2 process"
-  command: pm2 start npm -- start
-  become: true
+  shell: |
+    pm2 stop all
+    pm2 start npm -- start
 
 
