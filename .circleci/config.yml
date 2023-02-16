@@ -211,21 +211,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar gzip ansible aws-cli npm nodejs
+            apk add --update --no-cache ansible aws-cli
       - attach_workspace:
          at: ~/
-      # - run:
-      #     name: display inventory
-      #     command: |
-      #       cd .circleci/ansible
-      #       cat inventory.txt
-      # - run: 
-      #     name: install ansible
-      #     command: |
-      #       sudo apt update
-      #       sudo apt install software-properties-common -y
-      #       sudo add-apt-repository --yes --update ppa:ansible/ansible
-      #       sudo apt install ansible -y
       - run:
           name: ping ansible
           command: | 
@@ -240,7 +228,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:16.13.2 #circleci/node:13.8.0
+      - image: circleci/node:13.8.0  #cimg/node:16.13.2
     steps:
       - checkout
       - restore_cache:
@@ -274,10 +262,10 @@ jobs:
             else 
               exit 1
             fi
-      # - destroy-environment:
-      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
-      # - revert-migrations:
-      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
            
 
   deploy-frontend:
@@ -459,8 +447,8 @@ workflows:
           #     only: [test-feature-branch]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
