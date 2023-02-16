@@ -293,12 +293,12 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.11.1-alpine3.17
+      - image: python:3.7-alpine3.16
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - bf:18:af:58:2a:5f:bf:02:85:6c:58:6f:01:c6:16:d8
+            - 9f:43:6c:4d:6f:4d:63:3e:0b:bd:f5:46:a4:56:25:94
       - attach_workspace:
          at: ~/
       - run:
@@ -442,8 +442,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
