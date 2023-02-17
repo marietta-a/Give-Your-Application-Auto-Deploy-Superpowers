@@ -232,11 +232,7 @@ jobs:
       - run: 
           name: install dependencies
           command: |
-            sudo apt install -y tar gzip curl
-            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-            unzip awscli-bundle.zip
-            sudo ./awscli-bundle/install 
-            aws --version
+            apk add --update --no-cache aws-cli tar gzip curl npm nodejs
       - run:
           name: Run migrations
           command: |
@@ -370,8 +366,8 @@ jobs:
             else
               return 1
             fi
-      # - destroy-environment:
-      #     WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
