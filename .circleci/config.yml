@@ -238,7 +238,8 @@ jobs:
           command: |
             cd backend
             npm install 
-            npm update
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical 
             npm run build
