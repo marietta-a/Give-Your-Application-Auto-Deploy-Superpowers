@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: python:3.11.1-alpine3.17
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -232,7 +232,11 @@ jobs:
       - run: 
           name: install dependencies
           command: |
-            apk add --update --no-cache aws-cli tar gzip curl npm nodejs
+            sudo apt install -y tar gzip curl
+            curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+            unzip awscli-bundle.zip
+            sudo ./awscli-bundle/install 
+            aws --version
       - run:
           name: Run migrations
           command: |
