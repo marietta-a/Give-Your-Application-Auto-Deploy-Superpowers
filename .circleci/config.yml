@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:15.0.1 #circleci/node:13.8.0
+      - image: cimg/node:19.6.1 #cimg/node:15.0.1 #circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
