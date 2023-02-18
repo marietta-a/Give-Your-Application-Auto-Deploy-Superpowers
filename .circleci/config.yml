@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:19.6.1 #cimg/node:15.0.1 #circleci/node:13.8.0
+      - image: cimg/node:15.0.1 #cimg/node:19.6.1 #circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -239,10 +239,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            sudo npm install -g npm-check-updates
             sudo npm cache clean -f
             sudo npm install -g n
             sudo n stable
-            # sudo npm install -g npm-check-updates
             sudo npm audit fix --audit-level=critical --force
             sudo npm run build
             sudo npm run migrations > migrations_dump.txt
