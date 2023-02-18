@@ -239,7 +239,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm install -g npm@9.5.0
+            sudo npm cache clean -f
+            sudo npm install -g n
+            sudo n stable
+            # sudo npm install -g npm-check-updates
             sudo npm audit fix --audit-level=critical --force
             sudo npm run build
             sudo npm run migrations > migrations_dump.txt
