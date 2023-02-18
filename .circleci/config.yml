@@ -239,9 +239,9 @@ jobs:
             cd backend
             npm i node-fetch@latest
             npm audit fix --force
+            npm audit fix --force
+            npm audit fix --force
             npm run build
-            npm audit fix --force
-            npm audit fix --force
             npm run migrations > migrations_dump.txt
       - run:
           name: display migration_dump
