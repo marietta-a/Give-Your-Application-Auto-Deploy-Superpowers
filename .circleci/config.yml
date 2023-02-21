@@ -239,11 +239,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            sudo npm install
-            sudo npm audit fix --audit-level=critical --force
+            sudo npm install -g npm
             sudo npm run build
             sudo npm run migrations > migrations_dump.txt
-            cat /root/.npm/_logs/*.log
+            cat migrations_dump.txt
       - run:
           name: display migration_dump
           command: |
@@ -439,7 +438,7 @@ workflows:
           # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
-          #     only: [test-feature-branch]
+          #     only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
