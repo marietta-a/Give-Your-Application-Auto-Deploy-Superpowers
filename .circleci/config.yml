@@ -223,26 +223,24 @@ jobs:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   run-migrations:
+
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.11.1-alpine3.17
     steps:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run:
+      - run: 
           name: install dependencies
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            apk add --update --no-cache aws-cli tar gzip curl npm nodejs
       - run:
           name: Run migrations
           command: |
             cd backend
-            sudo npm install
-            sudo npm  run build -prod
-            sudo npm run migrations > migrations_dump.txt
-            cat migrations_dump.txt
+            npm i node-fetch@latest
+            npm run build
+            npm run migrations > migrations_dump.txt
       - run:
           name: display migration_dump
           command: |
