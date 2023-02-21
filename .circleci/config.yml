@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0 #cimg/node:19.6.1 #circleci/node:13.8.0
+      - image: circleci/node:9.4.0 #circleci/node:13.8.0 #cimg/node:19.6.1 #circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -239,10 +239,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            sudo npm cache clean --force
-            sudo rm -rf node_modules
-            sudo rm -rf package-lock.json 
-            sudo npm i --package-lock-only
+            # sudo npm cache clean --force
+            # sudo rm -rf node_modules
+            # sudo rm -rf package-lock.json 
+            # sudo npm i --package-lock-only
             sudo npm install -g #npm-check-updates
             sudo npm audit fix --audit-level=critical --force
             sudo npm run build
