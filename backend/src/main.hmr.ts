@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config: ConfigService = app.get('ConfigService');
   await app.listen(config.PORT);
+  console.log('config: ' + config);
 
   if (module.hot) {
     module.hot.accept();
