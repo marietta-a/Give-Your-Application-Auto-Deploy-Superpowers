@@ -239,6 +239,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            rm -rf package-lock.json 
             sudo npm install -g #npm-check-updates
             sudo npm audit fix --audit-level=critical --force
             sudo npm run build
