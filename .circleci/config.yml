@@ -239,6 +239,8 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            sudo npm cache clean
+            sudo rm -rf node_modules
             sudo rm -rf package-lock.json 
             sudo npm i --package-lock-only
             sudo npm install -g #npm-check-updates
