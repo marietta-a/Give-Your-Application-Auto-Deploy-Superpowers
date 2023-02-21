@@ -240,7 +240,7 @@ jobs:
           command: |
             cd backend
             sudo npm install 
-            sudo npm audit fix --audit-level=critical --force
+            sudo npm audit fix --force
             sudo npm run build
             sudo npm run migrations > migrations_dump.txt
       - run:
