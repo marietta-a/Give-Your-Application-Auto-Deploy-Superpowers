@@ -404,7 +404,7 @@ jobs:
               --parameter-overrides WorkflowID=udapeople-${CIRCLE_WORKFLOW_ID:0:7} \
               --tags project=udapeople
             cat ~/project/OldWorkflowID.txt 
-            echo CurrentWorkFlowID: ${CIRCLE_WORKFLOW_ID:0:7}
+            echo CurrentWorkFlowID: ${CIRCLE_WORKFLOW_ID:0:7} 
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
