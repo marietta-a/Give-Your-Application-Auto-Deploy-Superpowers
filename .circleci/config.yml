@@ -405,7 +405,7 @@ jobs:
 
   cleanup:
     docker:
-      - image: aws-cli #python:3.11.1-alpine3.17
+      - image: amazon/aws-cli #python:3.11.1-alpine3.17
     steps:
       - checkout
       # - run:
