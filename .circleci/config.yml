@@ -223,7 +223,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:16.13.2
+      - image: circleci/node:13.8.0 #cimg/node:16.13.2
     steps:
       - checkout
       - restore_cache:
@@ -432,7 +432,7 @@ jobs:
           command: |
             export STACKS=$(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
-            echo Stack names: ${STACKS[@]} 
+            echo ${STACKS[@]} 
       - run:
           name: Remove old stacks and files
           command: |
