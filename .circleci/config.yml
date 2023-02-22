@@ -46,8 +46,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            export SUCCESS = $(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_<<parameters.WORKFLOW_ID>>)
-            if(( ${SUCCESS} == 1 )); 
+            SUCCESS=$(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_<<parameters.WORKFLOW_ID>>)
+            if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
               npm install
@@ -224,7 +224,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:16.13.2 #circleci/node:13.8.0
+      - image: cimg/node:16.13.2
     steps:
       - checkout
       - restore_cache:
@@ -366,7 +366,7 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              return 0
+              return 1
             else
               return 1
             fi
@@ -377,13 +377,15 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/node:16.13.2
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum install -y npm nodejs
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Update cloudfront distribution
           command: |
