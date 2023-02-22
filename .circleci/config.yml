@@ -46,8 +46,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS = $(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_<<parameters.WORKFLOW_ID>>)
-            if(( $SUCCESS==1 )); 
+            export SUCCESS = $(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_<<parameters.WORKFLOW_ID>>)
+            if(( ${SUCCESS} == 1 )); 
             then
               cd ~/project/backend
               npm install
@@ -364,14 +364,15 @@ jobs:
           command: |
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
             echo ${URL} 
-            # if curl -s ${URL} | grep "Welcome"
-            if --ipv4 -v ${URL} | grep "Welcome"
+            if curl -s ${URL} | grep "Welcome"
             then
-              return 0
+              return 1
             else
               return 1
             fi
       - destroy-environment:
+          WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
