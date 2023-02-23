@@ -1,6 +1,5 @@
 # !!!IMPORTANT
-### THE GIT REPOSITORY CONTAINS UPDATED URLS. SERVERS IN THE ZIPPED FOLDER ARE DOWN
-### PLEASE USE URLS IN THE GIT REPO
+### (THE GIT REPOSITORY CONTAINS UPDATED URLS. SERVERS IN THE ZIPPED FOLDER ARE DOWN. PLEASE USE URLS IN THE GIT REPO)
 
 
 We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
