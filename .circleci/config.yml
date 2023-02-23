@@ -434,7 +434,7 @@ jobs:
 workflows:
   blue-green-workflows:
     jobs:
-      - build-frontend
+      - build-frontend 
       - build-backend
       - test-frontend:
           requires: [build-frontend]
