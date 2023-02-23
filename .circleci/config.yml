@@ -394,7 +394,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameter-overrides WorkflowID=udapeople-${CIRCLE_WORKFLOW_ID:0:7} \
+              --parameter-overrides WorkflowID=udapeople-7c23833 \
               --tags project=udapeople
             cat ~/project/OldWorkflowID.txt 
             echo CurrentWorkFlowID: ${CIRCLE_WORKFLOW_ID:0:7} 
