@@ -1,5 +1,5 @@
 URL01: https://github.com/marietta-a/Give-Your-Application-Auto-Deploy-Superpowers
-URL02: http://udapeople-5f66067.s3-website-us-east-1.amazonaws.com/#/employees
+URL02: http://udapeople-7c23833.s3-website-us-east-1.amazonaws.com/#/employees
 URL03: http://d28xugqfafhwyf.cloudfront.net/#/employees
-URL04: http://3.224.211.29:3030/api/status
+URL04: http://44.192.132.199:3030/api/status
 URL05: http://ec2-34-229-56-214.compute-1.amazonaws.com:9090/targets
