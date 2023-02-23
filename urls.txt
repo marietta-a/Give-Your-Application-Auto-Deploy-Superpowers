@@ -2,4 +2,4 @@ URL01: https://github.com/marietta-a/Give-Your-Application-Auto-Deploy-Superpowe
 URL02: http://udapeople-5f66067.s3-website-us-east-1.amazonaws.com/#/employees
 URL03: http://d28xugqfafhwyf.cloudfront.net/#/employees
 URL04: http://3.224.211.29:3030/api/status
-URL05: http://ec2-34-224-62-66.compute-1.amazonaws.com:9090/targets
+URL05: http://ec2-34-229-56-214.compute-1.amazonaws.com:9090/targets
