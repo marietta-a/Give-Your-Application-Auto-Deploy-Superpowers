@@ -425,7 +425,12 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            echo ${OldWorkflowID}
+            export OldWorkflowID=$(aws cloudformation \
+            list-exports --query Exports[?Name==\`WorkflowID\`].Value \
+            --no-paginate --output text)
+            echo $OldWorkflowID >> ~/OldWorkflowID.txt
+            cat ~/OldWorkflowID.txt
+            
             if [[ ${STACKS[@]} =~ ${OldWorkflowID} ]]
             then
               aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
