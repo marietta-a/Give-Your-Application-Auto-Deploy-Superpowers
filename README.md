@@ -1,5 +1,3 @@
-# !!!IMPORTANT
-### (THE GIT REPOSITORY CONTAINS UPDATED URLS. SERVERS IN THE ZIPPED FOLDER ARE DOWN. PLEASE USE URLS IN THE GIT REPO)
 
 ## URLS
 1. [Bucket Endpoint](http://udapeople-5f66067.s3-website-us-east-1.amazonaws.com/#/employees)
