@@ -405,13 +405,9 @@ jobs:
 
   cleanup:
     docker:
-      - image: amazon/aws-cli #python:3.11.1-alpine3.17
+      - image: amazon/aws-cli
     steps:
       - checkout
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       apk add --update --no-cache aws-cli
       - run:
           name: Get old stack workflow id
           command: |
