@@ -14,15 +14,11 @@ commands:
 
     steps:
       - run:
-          name: Destroy backend
+          name: Destroy environments
           when: on_fail
           command: |
             aws cloudformation delete-stack \
             --stack-name udapeople-backend-<<parameters.WORKFLOW_ID>>
-      - run:
-          name: Destroy frontend
-          when: on_fail
-          command: |
             aws s3 rm s3://udapeople-<<parameters.WORKFLOW_ID>> --recursive
             aws cloudformation delete-stack \
             --stack-name udapeople-frontend-<<parameters.WORKFLOW_ID>>
@@ -322,15 +318,17 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.16 #python:3.11.1-alpine3.17
+      - image: circleci/node:13.8.0 #python:3.7-alpine3.16
     steps:
       - checkout
       - attach_workspace:
           at: ~/
       - run:
           name: Install dependencies
-          command: |
-            apk add --update curl aws-cli npm nodejs
+          command:  |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Backend smoke test.
           command: |
@@ -358,7 +356,7 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              return 0
+              return 1
             else
               return 1
             fi
@@ -415,13 +413,16 @@ jobs:
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
             echo ${STACKS[@]}
       - run:
-          name: Remove old stacks and files
+          name: Update cloudfront distribution
           command: |
             export OldWorkflowID=$(aws cloudformation \
             list-exports --query Exports[?Name==\`WorkflowID\`].Value \
             --no-paginate --output text)
             echo $OldWorkflowID >> ~/OldWorkflowID.txt
-            cat ~/OldWorkflowID.txt
+            
+            echo OldWorkflowId: "${OldWorkflowID}"
+            echo CIRCLECI_WORKFLOW_ID: "${CIRCLECI_WORKFLOW_ID}"
+            echo Stack names: "${STACKS[@]}"
 
             if [[ ${STACKS[@]} =~ ${OldWorkflowID} ]]
             then
