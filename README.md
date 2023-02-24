@@ -1,8 +1,8 @@
 
 ## URLS
-1. [Bucket Endpoint](http://udapeople-7c23833.s3-website-us-east-1.amazonaws.com/#/employees)
+1. [Bucket Endpoint](http://udapeople-35da80a.s3-website-us-east-1.amazonaws.com/#/employees)
 2. [Cloudfront](http://d28xugqfafhwyf.cloudfront.net/#/employees)
-3. [API Status](http://44.192.132.199:3030/api/status)
+3. [API Status](http://107.23.107.62:3030/api/status)
 4. [Prometheus](http://ec2-34-224-62-66.compute-1.amazonaws.com:9090/targets)
 
 We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
