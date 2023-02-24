@@ -1,9 +1,9 @@
 
 ## URLS
-1. [Bucket Endpoint](http://udapeople-35da80a.s3-website-us-east-1.amazonaws.com/#/employees)
+1. [Bucket Endpoint](http://udapeople-72fa32a.s3-website-us-east-1.amazonaws.com/#/employees)
 2. [Cloudfront](http://d28xugqfafhwyf.cloudfront.net/#/employees)
-3. [API Status](http://107.23.107.62:3030/api/status)
-4. [Prometheus](http://ec2-34-224-62-66.compute-1.amazonaws.com:9090/targets)
+3. [API Status](http://100.26.224.217:3030/api/status)
+4. [Prometheus](http://ec2-100-25-140-170.compute-1.amazonaws.com:9090/targets)
 
 We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
 - Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
