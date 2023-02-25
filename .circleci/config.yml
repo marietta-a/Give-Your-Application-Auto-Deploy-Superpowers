@@ -35,10 +35,11 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131
+            curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131
+            SUCCESS=$(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131)
             if  $SUCCESS == 1 
             then
-                cd backend
+                cd ~/project/backend
                 npm install
                 npm run migration:revert
             fi  
