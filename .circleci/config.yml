@@ -345,7 +345,7 @@ jobs:
 
             if curl -v "${API_URL}/api/status" | grep "ok"
             then
-                exit 0
+                exit 1
             else
                 exit 1
             fi
@@ -407,14 +407,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: fetch stack names
+          name: Update cloudfront distribution
           command: |
             export STACKS=$(aws cloudformation list-stacks --query StackSummaries[*].StackName \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)
             echo ${STACKS[@]}
-      - run:
-          name: Remove old stacks and files
-          command: |
             export OldWorkflowID=$(aws cloudformation \
             list-exports --query Exports[?Name==\`WorkflowID\`].Value \
             --no-paginate --output text)
