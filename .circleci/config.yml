@@ -36,7 +36,7 @@ commands:
           when: on_fail
           command: |
             SUCCESS=$(curl http://kvdb.io/3yYcARbomT5zzc9DwEA6RB//migration_6dae131)
-            if ${SUCCESS}==1
+            if(${SUCCESS}==1)
             then
                 cd ~/project/backend
                 npm install
