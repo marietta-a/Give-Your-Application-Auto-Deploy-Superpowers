@@ -42,7 +42,7 @@ commands:
                 cd ~/project/backend
                 npm install
                 npm run migrations:revert
-            fi  
+            fi
             
 jobs:
   build-frontend:
