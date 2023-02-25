@@ -356,7 +356,7 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              exit 1
+              exit 0
             else
               exit 1
             fi
@@ -419,7 +419,9 @@ jobs:
             list-exports --query Exports[?Name==\`WorkflowID\`].Value \
             --no-paginate --output text)
             echo $OldWorkflowID >> ~/OldWorkflowID.txt
-            cat ~/OldWorkflowID.txt
+
+            echo OldWorkFlowId: ${OldWorkflowID}
+            echo Stacks: ${STACKS[@]}
 
             if [[ ${STACKS[@]} =~ ${OldWorkflowID} ]]
             then
