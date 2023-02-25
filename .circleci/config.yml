@@ -319,15 +319,17 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.16 #python:3.11.1-alpine3.17
+      - image: circleci/node:13.8.0  #python:3.11.1-alpine3.17
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
+      - restore_cache:
+          keys: [backend-build]
       - run:
-          name: Install dependencies
+          name: install dependencies
           command: |
-            apk add --update curl aws-cli npm nodejs
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Backend smoke test.
           command: |
@@ -344,9 +346,9 @@ jobs:
 
             if curl -v "${API_URL}/api/status" | grep "ok"
             then
-                return 0
+                exit 0
             else
-                return 1
+                exit 1
             fi
       - run:
           name: Frontend smoke test.
@@ -355,9 +357,9 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              return 1
+              exit 1
             else
-              return 1
+              exit 1
             fi
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}
