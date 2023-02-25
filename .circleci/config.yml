@@ -14,15 +14,11 @@ commands:
 
     steps:
       - run:
-          name: Destroy backend
+          name: Destroy environments
           when: on_fail
           command: |
             aws cloudformation delete-stack \
             --stack-name udapeople-backend-<<parameters.WORKFLOW_ID>>
-      - run:
-          name: Destroy frontend
-          when: on_fail
-          command: |
             aws s3 rm s3://udapeople-<<parameters.WORKFLOW_ID>> --recursive
             aws cloudformation delete-stack \
             --stack-name udapeople-frontend-<<parameters.WORKFLOW_ID>>
@@ -39,6 +35,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
+            #!/bin/bash
             SUCCESS=$(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_<<parameters.WORKFLOW_ID>>)
             if  $SUCCESS == 1 
             then
