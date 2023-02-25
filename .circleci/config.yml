@@ -35,9 +35,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131
-            SUCCESS=$(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131)
-            if  $SUCCESS == 1 
+            export SUCCESS=$(curl --insecure https://kvdb.io/3yYcARbomT5zzc9DwEA6RB/migration_6dae131)
+            if  ${SUCCESS} == 1 
             then
                 cd ~/project/backend
                 npm install
@@ -338,7 +337,6 @@ jobs:
             --filter Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            # export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
 
             echo "Wait for 1 minute"
