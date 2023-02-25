@@ -19,7 +19,7 @@ commands:
           command: |
             aws cloudformation delete-stack \
             --stack-name udapeople-backend-<<parameters.WORKFLOW_ID>>
-            aws s3 rm s3://udapeople-<<parameters.WORKFLOW_ID>> --recursive
+            aws s3 rm s3://udapeople-frontend-<<parameters.WORKFLOW_ID>> --recursive
             aws cloudformation delete-stack \
             --stack-name udapeople-frontend-<<parameters.WORKFLOW_ID>>
 
@@ -279,7 +279,7 @@ jobs:
             npm install
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws s3 cp dist s3://udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           WORKFLOW_ID: ${CIRCLE_WORKFLOW_ID:0:7}  
                     
@@ -352,7 +352,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
+            URL="http://udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com/#/employees"            
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
@@ -392,7 +392,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameter-overrides WorkflowID=udapeople-${CIRCLE_WORKFLOW_ID:0:7} \
+              --parameter-overrides WorkflowID=udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
               --tags project=udapeople
             cat ~/project/OldWorkflowID.txt 
             echo CurrentWorkFlowID: ${CIRCLE_WORKFLOW_ID:0:7} 
