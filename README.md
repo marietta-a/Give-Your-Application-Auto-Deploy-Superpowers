@@ -1,10 +1,4 @@
 
-## URLS
-1. [Bucket Endpoint](http://udapeople-3c6fbe5.s3-website-us-east-1.amazonaws.com/#/employees)
-2. [Cloudfront](http://dsllmrmdfy45a.cloudfront.net/#/employees)
-3. [API Status](http://100.26.121.21:3030/api/status)
-4. [Prometheus](http://54.210.115.107:9090/targets)
-
 We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to:
 - Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
 - [Submit a support ticket](https://udacity.zendesk.com/hc/en-us/requests/new) along with the link to your forked repository. 
